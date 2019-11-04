@@ -1,5 +1,16 @@
 export default {
   translation: {
-    helloWorld: 'Hola Mundo!',
+    appName: 'HR Attendance',
+    sessions: {
+      logIn: 'Ingresar',
+      logOut: 'Salir',
+    },
+    users: {
+      email: 'email',
+      password: 'contraseña',
+    },
+    validations: {
+      required: 'requerido',
+    },
   },
 };

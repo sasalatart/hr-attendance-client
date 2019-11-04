@@ -50,7 +50,7 @@ export default {
     const body = humps(res.status === 204 ? {} : await res.json());
 
     // eslint-disable-next-line prefer-promise-reject-errors
-    if (!res.ok) return Promise.reject({ ...body, httpStatus: res.status });
+    if (!res.ok) return Promise.reject({ ...body, status: res.status });
 
     const page = +headers.get('x-page');
     if (!page) return body;

@@ -9,8 +9,9 @@
   "plugins": ["react", "react-hooks", "import", "jsx-a11y", "prettier"],
   "rules": {
     "prettier/prettier": "error",
+    "react-hooks/exhaustive-deps": "error",
     "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn"
+    "react/jsx-props-no-spreading": "off"
   },
   "env": {
     "browser": true

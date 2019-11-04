@@ -1,4 +1,4 @@
-import { toast } from 'react-toastify';
+import toastr from 'toastr';
 import get from 'lodash/get';
 import i18n from '../../locales';
 import { PROMISE_TYPES_SUFFIXES } from '../ducks/common';
@@ -13,19 +13,19 @@ function validationDescription(errors) {
 export default store => next => action => {
   if (
     !action.type.includes(PROMISE_TYPES_SUFFIXES.REJECTED) ||
-    !get(action.payload, 'httpStatus')
+    !get(action.payload, 'status')
   ) {
     return next(action);
   }
 
-  const { httpStatus, message, errors } = action.payload;
-  if (httpStatus === 401) {
+  const { status, error, errors } = action.payload;
+  if (status === 401) {
     const loggedIn = getIsLoggedIn(store.getState());
     if (loggedIn) store.dispatch(logOut());
 
-    toast.warn(loggedIn ? i18n.t('errors.tokenExpired') : message);
+    toastr.warning(loggedIn ? i18n.t('errors.tokenExpired') : error);
   } else {
-    toast.error(httpStatus === 422 ? validationDescription(errors) : message);
+    toastr.error(status === 422 ? validationDescription(errors) : error);
   }
 
   return next(action);
