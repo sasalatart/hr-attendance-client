@@ -11,7 +11,7 @@ let store;
 // eslint-disable-next-line no-underscore-dangle
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const middleware = [thunkMiddleware, promiseMiddleware(), httpErrorMiddleware];
+const middleware = [thunkMiddleware, promiseMiddleware, httpErrorMiddleware];
 
 export default () => {
   if (store) return { store };
