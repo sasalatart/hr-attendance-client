@@ -1,3 +1,4 @@
+import { batch } from 'react-redux';
 import { Map } from 'immutable';
 import { normalize, denormalize } from 'normalizr';
 import { createSelector } from 'reselect';
@@ -34,10 +35,7 @@ export default function sessionsReducer(
       return state.set('token', jwt);
     }
     case PROMISE_TYPES.LOG_IN.FULFILLED:
-      return state.merge({
-        token: payload.jwt,
-        currentUserId: payload.result.user,
-      });
+      return state.merge({ token: payload.jwt });
     case PROMISE_TYPES.LOAD_PROFILE.FULFILLED:
       return state.set('currentUserId', payload.result.user);
     default:
@@ -48,27 +46,27 @@ export default function sessionsReducer(
 export function loadProfile() {
   return {
     type: TYPES.LOAD_PROFILE,
-    payload: API.sessions
-      .loadProfile()
-      .then(profile => normalize(profile, userSchema)),
+    payload: API.loadProfile().then(profile => normalize(profile, userSchema)),
   };
 }
 
 export function logIn(body) {
-  return {
-    type: TYPES.LOG_IN,
-    payload: API.sessions.logIn(body).then(async ({ jwt }) => {
+  return dispatch =>
+    batch(async () => {
+      const {
+        value: { jwt },
+      } = await dispatch({
+        type: TYPES.LOG_IN,
+        payload: API.logIn({ auth: body }),
+      });
       setToken(jwt);
-      return { ...(await loadProfile()), jwt };
-    }),
-  };
+      return dispatch(loadProfile());
+    });
 }
 
 export function logOut() {
-  return dispatch => {
-    clearToken();
-    dispatch({ type: TYPES.LOG_OUT });
-  };
+  clearToken();
+  return { type: TYPES.LOG_OUT };
 }
 
 export const getSessionsState = state => state.sessions;
