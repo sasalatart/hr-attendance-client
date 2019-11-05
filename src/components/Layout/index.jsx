@@ -9,6 +9,7 @@ const useStyles = makeStyles({
   contentWrapper: {
     flex: 1,
     marginTop: '25px',
+    marginBottom: '25px',
   },
   children: {
     height: '100%',

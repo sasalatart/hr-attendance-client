@@ -6,19 +6,17 @@ import { Button, CircularProgress, Typography } from '@material-ui/core';
 import isEmpty from 'lodash/isEmpty';
 
 const useStyles = makeStyles({
-  button: {
-    marginTop: '10px',
-  },
   progress: {
     marginRight: '10px',
   },
 });
 
 export default function SubmitButton({
-  textId,
   dirty,
   errors,
   isSubmitting,
+  text,
+  textId,
   ...rest
 }) {
   const { t } = useTranslation();
@@ -30,25 +28,26 @@ export default function SubmitButton({
       variant="contained"
       color="primary"
       disabled={disabled}
-      className={classes.button}
       {...rest}
     >
       {isSubmitting && (
         <CircularProgress size={14} className={classes.progress} />
       )}
-      <Typography variant="button">{t(textId)}</Typography>
+      <Typography variant="button">{text || t(textId)}</Typography>
     </Button>
   );
 }
 
 SubmitButton.propTypes = {
-  textId: PropTypes.string,
   dirty: PropTypes.bool.isRequired,
   errors: PropTypes.shape({}),
   isSubmitting: PropTypes.bool.isRequired,
+  text: PropTypes.string,
+  textId: PropTypes.string,
 };
 
 SubmitButton.defaultProps = {
-  textId: 'forms.submit',
   errors: {},
+  text: undefined,
+  textId: 'forms.submit',
 };

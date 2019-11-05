@@ -1,31 +1,27 @@
 import React from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import { useSession } from '../hooks';
 import { Background } from './Common';
-import Home from './Home';
 import Layout from './Layout';
 import LogIn from './LogIn';
+import OrganizationsList from './Organizations/List';
 
 export default function Router() {
   const { loggedIn } = useSession();
 
   if (!loggedIn) {
     return (
-      <BrowserRouter>
-        <Background>
-          <Route component={LogIn} />
-        </Background>
-      </BrowserRouter>
+      <Background>
+        <Route component={LogIn} />
+      </Background>
     );
   }
 
   return (
-    <BrowserRouter>
-      <Layout>
-        <Switch>
-          <Route component={Home} />
-        </Switch>
-      </Layout>
-    </BrowserRouter>
+    <Layout>
+      <Switch>
+        <Route component={OrganizationsList} />
+      </Switch>
+    </Layout>
   );
 }
