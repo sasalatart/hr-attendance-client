@@ -7,6 +7,7 @@ import '../locales';
 import configureStore from '../store';
 import { SessionProvider } from './Providers';
 import Router from './Router';
+import Startup from './Startup';
 
 const { store, history } = configureStore();
 
@@ -16,7 +17,9 @@ export default function Root() {
       <CSSBaseline />
       <SessionProvider>
         <ConnectedRouter history={history}>
-          <Router />
+          <Startup>
+            <Router />
+          </Startup>
         </ConnectedRouter>
       </SessionProvider>
     </Provider>
