@@ -4,14 +4,19 @@ import { denormalize } from 'normalizr';
 import get from 'lodash/get';
 import isAfter from 'date-fns/isAfter';
 import isEqual from 'date-fns/isEqual';
+import parseISO from 'date-fns/parseISO';
 
 const INITIAL_STATE = new Map({});
 
 function merger(oldVal, newVal) {
   if (!oldVal.updatedAt || !newVal.updatedAt) return newVal;
-  if (isEqual(newVal.updatedAt, oldVal.updatedAt)) return newVal;
 
-  return isAfter(newVal.updatedAt, oldVal.updatedAt) ? newVal : oldVal;
+  const newUpdatedAt = parseISO(newVal.updatedAt);
+  const oldUpdatedAt = parseISO(oldVal.updatedAt);
+
+  if (isEqual(newUpdatedAt, oldUpdatedAt)) return newVal;
+
+  return isAfter(newUpdatedAt, oldUpdatedAt) ? newVal : oldVal;
 }
 
 export default function entitiesReducer(state = INITIAL_STATE, action) {

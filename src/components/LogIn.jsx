@@ -22,6 +22,9 @@ const useStyles = makeStyles({
     justifyContent: 'center',
     maxWidth: '320px',
   },
+  submit: {
+    marginTop: '15px',
+  },
 });
 
 function LogIn(props) {
@@ -48,6 +51,7 @@ function LogIn(props) {
         <SubmitButton
           {...submitButtonProps(props)}
           textId="sessions.logIn"
+          className={classes.submit}
           fullWidth
         />
       </Form>
@@ -59,12 +63,12 @@ function mapPropsToValues() {
   return { email: '', password: '' };
 }
 
-const mapStateToProps = { onSubmit: logIn };
+const mapDispatchToProps = { onSubmit: logIn };
 
 export default compose(
   connect(
     null,
-    mapStateToProps,
+    mapDispatchToProps,
   ),
   withFormik({
     mapPropsToValues,

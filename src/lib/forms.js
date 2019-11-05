@@ -1,9 +1,10 @@
 import omit from 'lodash/omit';
 import pick from 'lodash/pick';
 
-export function formikSubmit(values, { props, setSubmitting }) {
+export function formikSubmit(values, { props, resetForm, setSubmitting }) {
   return props
     .onSubmit(values)
+    .then(resetForm)
     .catch(() => setTimeout(() => setSubmitting(false), 2000));
 }
 
