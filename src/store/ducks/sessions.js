@@ -37,7 +37,7 @@ export default function sessionsReducer(
     case PROMISE_TYPES.LOG_IN.FULFILLED:
       return state.merge({ token: payload.jwt });
     case PROMISE_TYPES.LOAD_PROFILE.FULFILLED:
-      return state.set('currentUserId', payload.result.user);
+      return state.set('currentUserId', payload.result);
     default:
       return state;
   }

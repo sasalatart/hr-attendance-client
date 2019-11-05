@@ -9,24 +9,24 @@ const useStyles = makeStyles({
     display: 'flex',
     backgroundColor: blue[500],
   },
-  singleChild: {
+  centered: {
     justifyContent: 'center',
     alignItems: 'center',
     height: '100vh',
   },
-  multipleChildren: {
+  columns: {
     flexDirection: 'column',
     minHeight: 'calc(100vh - 64px)',
   },
 });
 
-export default function Background({ children }) {
+export default function Background({ centered, children }) {
   const classes = useStyles();
   return (
     <div
       className={classnames(
         classes.container,
-        children.length ? classes.multipleChildren : classes.singleChild,
+        centered ? classes.centered : classes.columns,
       )}
     >
       {children}
@@ -35,8 +35,13 @@ export default function Background({ children }) {
 }
 
 Background.propTypes = {
+  centered: PropTypes.bool,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]).isRequired,
+};
+
+Background.defaultProps = {
+  centered: false,
 };

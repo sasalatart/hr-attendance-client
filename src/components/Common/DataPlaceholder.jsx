@@ -28,7 +28,7 @@ export default function DataPlaceholder({
   const { t } = useTranslation();
   const classes = useStyles();
 
-  if (!loading && isEmpty(resource)) {
+  if (!loading && resource !== null && isEmpty(resource)) {
     return <Typography>{t('nothingHereYet')}</Typography>;
   }
 
@@ -46,7 +46,7 @@ export default function DataPlaceholder({
 }
 
 DataPlaceholder.propTypes = {
-  children: PropTypes.func,
+  children: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
   fullScreen: PropTypes.bool,
   loading: PropTypes.bool,
   resource: PropTypes.oneOfType([

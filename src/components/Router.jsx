@@ -11,7 +11,7 @@ export default function Router() {
 
   if (!loggedIn) {
     return (
-      <Background>
+      <Background centered>
         <Route component={LogIn} />
       </Background>
     );
