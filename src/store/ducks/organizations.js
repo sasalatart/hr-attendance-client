@@ -9,6 +9,7 @@ import {
   getPaginationDataFactory,
   resourceCallFactory,
 } from './common';
+import { getEntityFactory } from './entities';
 
 const INITIAL_STATE = new Map({
   paginatedOrganizations: new Map({}),
@@ -83,4 +84,9 @@ export const getOrganizationsPaginationData = getPaginationDataFactory(
   organizationSchema,
   getOrganizationsState,
   'paginatedOrganizations',
+);
+
+export const getOrganizationEntity = getEntityFactory(
+  organizationSchema,
+  'organizationId',
 );

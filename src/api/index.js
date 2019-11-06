@@ -12,6 +12,7 @@ export default {
         .toString(),
     );
   },
+  organizationShow: id => api.get(`/organizations/${id}`),
   organizationCreate: values => api.post('/organizations', values),
   organizationUpdate: (id, values) => api.put(`/organizations/${id}`, values),
   ogranizationDestroy: id => api.delete(`/organizations/${id}`),
