@@ -4,7 +4,7 @@ import { useSession } from '../hooks';
 import { Background } from './Common';
 import Layout from './Layout';
 import LogIn from './LogIn';
-import OrganizationsList from './Organizations/List';
+import Organizations from './Organizations';
 
 export default function Router() {
   const { loggedIn } = useSession();
@@ -20,7 +20,7 @@ export default function Router() {
   return (
     <Layout>
       <Switch>
-        <Route component={OrganizationsList} />
+        <Route component={Organizations} />
       </Switch>
     </Layout>
   );
