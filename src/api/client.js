@@ -1,5 +1,4 @@
 import URI from 'urijs';
-import keymirror from 'keymirror';
 import humps from 'lodash-humps';
 import createHumps from 'lodash-humps/lib/createHumps';
 import mapValues from 'lodash/mapValues';
@@ -8,14 +7,6 @@ import config from '../config';
 import { availableLocales } from '../locales';
 
 const snake = createHumps(snakeCase);
-
-const methods = keymirror({
-  GET: null,
-  POST: null,
-  PUT: null,
-  PATCH: null,
-  DELETE: null,
-});
 
 export default {
   locale: availableLocales.es,
@@ -30,24 +21,6 @@ export default {
 
   clearToken() {
     this.token = undefined;
-  },
-
-  fetchOptions(method, { body, options }) {
-    const finalOptions = { ...options, method };
-
-    if (this.token) {
-      finalOptions.headers = { Authorization: `Bearer ${this.token}` };
-    }
-
-    if (body) {
-      finalOptions.body = JSON.stringify(body);
-      finalOptions.headers = {
-        ...finalOptions.headers,
-        'Content-Type': 'application/json',
-      };
-    }
-
-    return finalOptions;
   },
 
   async handleResponse(res) {
@@ -73,40 +46,39 @@ export default {
     };
   },
 
-  fetch(method, path, { body, options }) {
-    const url = `${config.api.url}${path}`;
-    const query = URI.parseQuery(path.split('?')[1]);
+  fetch(method, path, body) {
     const finalQuery = {
-      ...mapValues(snake(query), snakeCase),
+      ...mapValues(snake(URI.parseQuery(path.split('?')[1])), snakeCase),
       locale: this.locale,
     };
-    const finalBody = body && snake(body);
-
-    const finalURL = URI(url)
+    const finalURL = URI(`${config.api.url}${path}`)
       .addQuery(finalQuery)
       .toString();
-    return window
-      .fetch(finalURL, this.fetchOptions(method, { body: finalBody, options }))
-      .then(this.handleResponse);
+    const finalBody = body && snake(body);
+
+    const fetchOptions = {
+      method,
+      headers: this.token && { Authorization: `Bearer ${this.token}` },
+      body: finalBody && JSON.stringify(finalBody),
+      'Content-Type': 'application/json',
+    };
+
+    return window.fetch(finalURL, fetchOptions).then(this.handleResponse);
   },
 
-  get(path, options) {
-    return this.fetch(methods.GET, path, { options });
+  get(path) {
+    return this.fetch('GET', path);
   },
 
-  post(path, body, options) {
-    return this.fetch(methods.POST, path, { body, options });
+  post(path, body) {
+    return this.fetch('POST', path, body);
   },
 
-  put(path, body, options) {
-    return this.fetch(methods.PUT, path, { body, options });
+  put(path, body) {
+    return this.fetch('PUT', path, body);
   },
 
-  patch(path, body, options) {
-    return this.fetch(methods.PATCH, path, { body, options });
-  },
-
-  delete(path, options) {
-    return this.fetch(methods.DELETE, path, { options });
+  delete(path) {
+    return this.fetch('DELETE', path);
   },
 };
