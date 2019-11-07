@@ -15,5 +15,18 @@ export default {
   organizationShow: id => api.get(`/organizations/${id}`),
   organizationCreate: values => api.post('/organizations', values),
   organizationUpdate: (id, values) => api.put(`/organizations/${id}`, values),
-  ogranizationDestroy: id => api.delete(`/organizations/${id}`),
+  organizationDestroy: id => api.delete(`/organizations/${id}`),
+
+  usersIndex: (organizationId, role, page) => {
+    return api.get(
+      URI(`/organizations/${organizationId}/users`)
+        .addQuery({ page, role })
+        .toString(),
+    );
+  },
+  userCreate: (organizationId, values) => {
+    return api.post(`/organizations/${organizationId}/users`, values);
+  },
+  userUpdate: (id, values) => api.put(`/users/${id}`, values),
+  userDestroy: id => api.delete(`/users/${id}`),
 };

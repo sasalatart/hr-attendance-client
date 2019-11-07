@@ -75,7 +75,7 @@ export const updateOrganization = resourceCallFactory(
 
 export const destroyOrganization = destroyCallFactory(
   TYPES.DESTROY,
-  API.ogranizationDestroy,
+  API.organizationDestroy,
 );
 
 const getOrganizationsState = state => state.organizations;

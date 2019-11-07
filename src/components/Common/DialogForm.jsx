@@ -27,7 +27,7 @@ export default function DialogForm({
         <DialogContent>{visible ? children : null}</DialogContent>
         <DialogActions>
           <SubmitButton {...submitButtonProps(rest)} text={title} />
-          <Button onClick={onClose}>{t('confirmations.confirmations')}</Button>
+          <Button onClick={onClose}>{t('confirmations.cancel')}</Button>
         </DialogActions>
       </Form>
     </Dialog>
