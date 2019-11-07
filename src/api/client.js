@@ -58,9 +58,11 @@ export default {
 
     const fetchOptions = {
       method,
-      headers: this.token && { Authorization: `Bearer ${this.token}` },
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: this.token && `Bearer ${this.token}`,
+      },
       body: finalBody && JSON.stringify(finalBody),
-      'Content-Type': 'application/json',
     };
 
     return window.fetch(finalURL, fetchOptions).then(this.handleResponse);
