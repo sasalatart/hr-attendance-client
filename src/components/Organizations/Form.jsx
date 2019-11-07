@@ -25,7 +25,7 @@ function OrganizationForm({ resource, ...rest }) {
   const { t } = useTranslation();
   const title = t(resource ? 'organizations.edit' : 'organizations.create');
   return (
-    <DialogForm {...rest} title={title} destroyOnClose>
+    <DialogForm {...rest} title={title}>
       <TextField
         {...textFieldProps('name', rest, t)}
         label={t('organizations.name')}

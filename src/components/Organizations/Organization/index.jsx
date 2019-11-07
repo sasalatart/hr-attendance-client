@@ -6,17 +6,21 @@ import { AppBar, Tabs, Tab } from '@material-ui/core';
 import {
   DateRange as DateRangeIcon,
   PeopleOutline as PeopleOutlineIcon,
+  VerifiedUser as VerifiedUserIcon,
 } from '@material-ui/icons';
 import {
   loadOrganization,
   getOrganizationEntity,
 } from '../../../store/ducks/organizations';
-import { DataPlaceholder, Title } from '../../Common';
+import { roles } from '../../../constants';
 import { useLoadResource } from '../../../hooks';
+import { DataPlaceholder, Title } from '../../Common';
+import UsersList from '../../Users/List';
 
 const tabs = {
-  users: 0,
-  attendances: 1,
+  orgAdmins: 0,
+  users: 1,
+  attendances: 2,
 };
 
 export default function Organization() {
@@ -58,11 +62,23 @@ export default function Organization() {
               value={currentTab}
               centered
             >
-              <Tab label={t('users.word')} icon={<PeopleOutlineIcon />} />
+              <Tab
+                label={t('users.list.orgAdmins')}
+                icon={<VerifiedUserIcon />}
+              />
+              <Tab
+                label={t('users.list.employees')}
+                icon={<PeopleOutlineIcon />}
+              />
               <Tab label={t('attendances.word')} icon={<DateRangeIcon />} />
             </Tabs>
           </AppBar>
-          {currentTab === tabs.users && t('users.word')}
+          {currentTab === tabs.orgAdmins && (
+            <UsersList role={roles.orgAdmin} organizationId={organizationId} />
+          )}
+          {currentTab === tabs.users && (
+            <UsersList role={roles.employee} organizationId={organizationId} />
+          )}
           {currentTab === tabs.attendances && t('attendances.word')}
         </>
       )}

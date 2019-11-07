@@ -9,7 +9,7 @@ import {
 } from '@material-ui/core';
 import { Delete as DeleteIcon, Edit as EditIcon } from '@material-ui/icons';
 import { organizationShape } from '../../prop-types';
-import { compiledRoutes } from '../../routes';
+import { compiledRoutes } from '../../../routes';
 
 export default function OrganizationListItem({
   organization,

@@ -3,6 +3,7 @@ import { connectRouter } from 'connected-react-router';
 import entities from './entities';
 import organizations from './organizations';
 import sessions, { TYPES as SESSIONS_TYPES } from './sessions';
+import users from './users';
 
 const appReducer = history => {
   return combineReducers({
@@ -10,6 +11,7 @@ const appReducer = history => {
     organizations,
     router: connectRouter(history),
     sessions,
+    users,
   });
 };
 

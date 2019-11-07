@@ -8,19 +8,20 @@ export function formikSubmit(values, { props, resetForm, setSubmitting }) {
     .catch(() => setTimeout(() => setSubmitting(false), 2000));
 }
 
-function baseFieldProps(name, { values, errors }, t) {
+function baseFieldProps(name, { values, errors, touched, handleBlur }, t) {
   return {
     id: name,
     name,
     value: values[name],
-    error: !!errors[name],
-    helperText: t(errors[name]),
+    error: touched[name] ? !!errors[name] : undefined,
+    helperText: touched[name] ? t(errors[name]) : undefined,
+    onBlur: handleBlur,
   };
 }
 
-export function textFieldProps(name, { values, errors, handleChange }, t) {
+export function textFieldProps(name, { handleChange, ...rest }, t) {
   return {
-    ...baseFieldProps(name, { values, errors }, t),
+    ...baseFieldProps(name, rest, t),
     onChange: handleChange,
   };
 }

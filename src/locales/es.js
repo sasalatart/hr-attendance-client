@@ -25,12 +25,26 @@ export default {
       logOut: 'Salir',
     },
     users: {
+      create: 'Crear usuario',
+      edit: 'Editar usuario',
       email: 'email',
+      name: 'nombre',
+      surname: 'apellido',
+      secondSurname: 'segundo apellido',
       password: 'contraseña',
+      passwordConfirmation: 'confirmación de contraseña',
       word: 'usuarios',
+      list: {
+        orgAdmins: 'Administradores de organización',
+        employees: 'Empleados',
+      },
     },
     validations: {
+      email: 'no tiene el formato correcto',
+      passwordsDoNotMatch: 'La contraseña y su confirmación no coinciden',
       required: 'requerido',
+      stringMax: 'no cumple con la longitud máxima',
+      stringMin: 'no cumple con la longitud mínima',
     },
   },
 };

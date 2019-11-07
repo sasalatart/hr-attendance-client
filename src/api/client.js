@@ -1,8 +1,13 @@
 import URI from 'urijs';
 import keymirror from 'keymirror';
 import humps from 'lodash-humps';
+import createHumps from 'lodash-humps/lib/createHumps';
+import mapValues from 'lodash/mapValues';
+import snakeCase from 'lodash/snakeCase';
 import config from '../config';
 import { availableLocales } from '../locales';
+
+const snake = createHumps(snakeCase);
 
 const methods = keymirror({
   GET: null,
@@ -69,11 +74,19 @@ export default {
   },
 
   fetch(method, path, { body, options }) {
-    const url = URI(`${config.api.url}${path}`)
-      .addQuery({ locale: this.locale })
+    const url = `${config.api.url}${path}`;
+    const query = URI.parseQuery(path.split('?')[1]);
+    const finalQuery = {
+      ...mapValues(snake(query), snakeCase),
+      locale: this.locale,
+    };
+    const finalBody = body && snake(body);
+
+    const finalURL = URI(url)
+      .addQuery(finalQuery)
       .toString();
     return window
-      .fetch(url, this.fetchOptions(method, { body, options }))
+      .fetch(finalURL, this.fetchOptions(method, { body: finalBody, options }))
       .then(this.handleResponse);
   },
 

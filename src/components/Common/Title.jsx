@@ -19,7 +19,13 @@ const useStyles = makeStyles({
   },
 });
 
-export default function Title({ text, textId, children, withBackButton }) {
+export default function Title({
+  text,
+  textId,
+  children,
+  withBackButton,
+  ...rest
+}) {
   const { goBack } = useHistory();
   const { t } = useTranslation();
   const classes = useStyles();
@@ -32,7 +38,9 @@ export default function Title({ text, textId, children, withBackButton }) {
             <ArrowBackIcon />
           </IconButton>
         )}
-        <Typography variant="h3">{text || t(textId)}</Typography>
+        <Typography variant="h3" {...rest}>
+          {text || t(textId)}
+        </Typography>
       </div>
       <div>{children}</div>
     </div>
