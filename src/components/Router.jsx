@@ -1,13 +1,15 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { useSession } from '../hooks';
+import { roles } from '../constants';
+import AttendanceRegistry from './AttendanceRegistry';
 import { Background } from './Common';
 import Layout from './Layout';
 import LogIn from './LogIn';
 import Organizations from './Organizations';
 
 export default function Router() {
-  const { loggedIn } = useSession();
+  const { loggedIn, role } = useSession();
 
   if (!loggedIn) {
     return (
@@ -20,7 +22,11 @@ export default function Router() {
   return (
     <Layout>
       <Switch>
-        <Route component={Organizations} />
+        <Route
+          component={
+            role === roles.employee ? AttendanceRegistry : Organizations
+          }
+        />
       </Switch>
     </Layout>
   );

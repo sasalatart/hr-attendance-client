@@ -4,6 +4,13 @@ export default {
     nothingHereYet: 'No hay nada aquí aún',
     attendances: {
       word: 'asistencias',
+      enteredAtStamp: 'Llegada: {{enteredAt}}',
+      leftAtStamp: 'Salida: {{leftAt}}',
+      registry: {
+        word: 'Registro de asistencia',
+        checkIn: 'Registrar entrada',
+        checkOut: 'Registrar salida',
+      },
     },
     confirmations: {
       areYouSure: '¿Está seguro/a?',
