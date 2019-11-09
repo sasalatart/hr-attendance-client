@@ -5,6 +5,9 @@ export default {
   logIn: body => api.post('/user_token', body),
   loadProfile: () => api.get('/users/me'),
 
+  attendancesCheckIn: () => api.post('/attendances/check-ins'),
+  attendancesCheckOut: () => api.put('/attendances/check-outs'),
+
   organizationsIndex: page => {
     return api.get(
       URI('/organizations')

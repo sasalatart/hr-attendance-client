@@ -16,7 +16,12 @@ export default function SessionProvider({ children }) {
   const handleLogOut = useCallback(() => dispatch(logOut()), [dispatch]);
 
   const value = useMemo(() => {
-    return { currentUser, loggedIn, logOut: handleLogOut };
+    return {
+      currentUser,
+      loggedIn,
+      logOut: handleLogOut,
+      role: currentUser && currentUser.role,
+    };
   }, [currentUser, handleLogOut, loggedIn]);
 
   return (
