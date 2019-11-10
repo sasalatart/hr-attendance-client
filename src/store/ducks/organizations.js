@@ -4,7 +4,7 @@ import API from '../../api';
 import { organizationSchema } from '../schemas';
 import {
   destroyCallFactory,
-  generatePromiseTypes,
+  fulfilledType,
   generateTypes,
   getPaginationDataFactory,
   resourceCallFactory,
@@ -24,14 +24,12 @@ export const TYPES = generateTypes('organizations', [
   'DESTROY',
 ]);
 
-export const PROMISE_TYPES = generatePromiseTypes(Object.values(TYPES));
-
 export default function organizationsReducer(
   state = INITIAL_STATE,
   { type, payload },
 ) {
   switch (type) {
-    case PROMISE_TYPES.LOAD_LIST.FULFILLED: {
+    case fulfilledType(TYPES.LOAD_LIST): {
       const { pagination, result } = payload;
       return state
         .setIn(

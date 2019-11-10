@@ -50,3 +50,13 @@ export const updateUserSchema = Yup.object().shape({
     },
   ),
 });
+
+export const attendanceSchema = Yup.object().shape({
+  enteredAt: Yup.date()
+    .required()
+    .max(new Date(), 'validations.mayNotBeInTheFuture'),
+  leftAt: Yup.date().min(
+    Yup.ref('enteredAt'),
+    'validations.mustBeAfterEnteredAt',
+  ),
+});

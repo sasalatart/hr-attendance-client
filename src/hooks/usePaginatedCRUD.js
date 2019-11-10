@@ -41,9 +41,9 @@ export default function usePaginatedCRUD(
   const handleDestroy = useCallback(
     async id => {
       await onDestroy(id);
-      const { total, page, pageSize } = paginationMeta;
+      const { total, page, perPage } = paginationMeta;
       const previousPage = page - 1;
-      return page > 1 && total - 1 === previousPage * pageSize
+      return page > 1 && total - 1 === previousPage * perPage
         ? handleSetPage(previousPage)
         : handleLoadPage(page);
     },

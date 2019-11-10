@@ -1,6 +1,9 @@
 import React, { createContext, useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
+import camelCase from 'lodash/camelCase';
+import get from 'lodash/get';
+import { roles } from '../../constants';
 import {
   logOut,
   getCurrentUser,
@@ -16,11 +19,14 @@ export default function SessionProvider({ children }) {
   const handleLogOut = useCallback(() => dispatch(logOut()), [dispatch]);
 
   const value = useMemo(() => {
+    const role = camelCase(get(currentUser, 'role'));
     return {
       currentUser,
       loggedIn,
       logOut: handleLogOut,
-      role: currentUser && currentUser.role,
+      isEmployee: role === roles.employee,
+      isOrgAdmin: role === roles.orgAdmin,
+      isAdmin: role === roles.admin,
     };
   }, [currentUser, handleLogOut, loggedIn]);
 

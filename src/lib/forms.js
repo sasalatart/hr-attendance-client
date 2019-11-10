@@ -26,6 +26,13 @@ export function textFieldProps(name, { handleChange, ...rest }, t) {
   };
 }
 
+export function dateTimePickerProps(name, { setFieldValue, ...rest }, t) {
+  return {
+    ...baseFieldProps(name, rest, t),
+    onChange: value => setFieldValue(name, value.toString()),
+  };
+}
+
 export function submitButtonProps(props) {
   return pick(props, ['dirty', 'errors', 'isSubmitting']);
 }
