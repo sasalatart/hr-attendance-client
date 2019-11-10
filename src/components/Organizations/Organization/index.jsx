@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useRouteMatch } from 'react-router-dom';
+import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { AppBar, Tabs, Tab } from '@material-ui/core';
 import {
@@ -8,6 +8,7 @@ import {
   PeopleOutline as PeopleOutlineIcon,
   VerifiedUser as VerifiedUserIcon,
 } from '@material-ui/icons';
+import URI from 'urijs';
 import {
   loadOrganization,
   getOrganizationEntity,
@@ -26,6 +27,8 @@ const tabs = {
 
 export default function Organization() {
   const dispatch = useDispatch();
+  const { replace } = useHistory();
+  const { pathname } = useLocation();
   const { organizationId } = useRouteMatch().params;
   const { t } = useTranslation();
   const { isOrgAdmin } = useSession();
@@ -44,8 +47,15 @@ export default function Organization() {
   );
 
   const handleTabChange = useCallback(
-    (event, newTab) => setCurrentTab(newTab),
-    [],
+    (event, newTab) => {
+      replace(
+        URI(pathname)
+          .removeQuery('page')
+          .toString(),
+      );
+      setCurrentTab(newTab);
+    },
+    [pathname, replace],
   );
 
   return (
