@@ -13,9 +13,10 @@ import {
   getOrganizationEntity,
 } from '../../../store/ducks/organizations';
 import { roles } from '../../../constants';
-import { useLoadResource } from '../../../hooks';
+import { useLoadResource, useSession } from '../../../hooks';
 import { DataPlaceholder, Title } from '../../Common';
 import UsersList from '../../Users/List';
+import AttendancesList from './Attendances';
 
 const tabs = {
   orgAdmins: 0,
@@ -25,10 +26,9 @@ const tabs = {
 
 export default function Organization() {
   const dispatch = useDispatch();
-  const {
-    params: { organizationId },
-  } = useRouteMatch();
+  const { organizationId } = useRouteMatch().params;
   const { t } = useTranslation();
+  const { isOrgAdmin } = useSession();
   const [currentTab, setCurrentTab] = useState(tabs.users);
 
   const organization = useSelector(state =>
@@ -70,7 +70,9 @@ export default function Organization() {
                 label={t('users.list.employees')}
                 icon={<PeopleOutlineIcon />}
               />
-              <Tab label={t('attendances.word')} icon={<DateRangeIcon />} />
+              {isOrgAdmin && (
+                <Tab label={t('attendances.word')} icon={<DateRangeIcon />} />
+              )}
             </Tabs>
           </AppBar>
           {currentTab === tabs.orgAdmins && (
@@ -79,7 +81,9 @@ export default function Organization() {
           {currentTab === tabs.users && (
             <UsersList role={roles.employee} organizationId={organizationId} />
           )}
-          {currentTab === tabs.attendances && t('attendances.word')}
+          {currentTab === tabs.attendances && (
+            <AttendancesList organization={organization} />
+          )}
         </>
       )}
     </DataPlaceholder>

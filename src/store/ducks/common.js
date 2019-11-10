@@ -21,18 +21,16 @@ export function generateTypes(namespace, types) {
   );
 }
 
-export function generatePromiseTypes(types) {
-  return types.reduce((acc, type) => {
-    const key = type.split('/').slice(-1);
-    return {
-      ...acc,
-      [key]: {
-        PENDING: `${type}_${PROMISE_TYPES_SUFFIXES.PENDING}`,
-        FULFILLED: `${type}_${PROMISE_TYPES_SUFFIXES.FULFILLED}`,
-        REJECTED: `${type}_${PROMISE_TYPES_SUFFIXES.REJECTED}`,
-      },
-    };
-  }, {});
+export function pendingType(type) {
+  return `${type}_${PROMISE_TYPES_SUFFIXES.PENDING}`;
+}
+
+export function fulfilledType(type) {
+  return `${type}_${PROMISE_TYPES_SUFFIXES.FULFILLED}`;
+}
+
+export function rejectedType(type) {
+  return `${type}_${PROMISE_TYPES_SUFFIXES.REJECTED}`;
 }
 
 export function resourceCallFactory(type, callFn, schema) {
@@ -61,7 +59,7 @@ export function destroyCallFactory(type, destroyFn) {
   };
 }
 
-const DEFAULT_PAGINATION_META = { pageSize: 25, totalPages: 1, total: 0 };
+const DEFAULT_PAGINATION_META = { perPage: 25, totalPages: 1, total: 0 };
 
 export function getPaginationDataFactory(
   schema,

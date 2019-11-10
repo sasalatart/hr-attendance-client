@@ -5,9 +5,10 @@ import API from '../../api';
 import { userSchema } from '../schemas';
 import {
   destroyCallFactory,
-  generatePromiseTypes,
+  fulfilledType,
   generateTypes,
   getPaginationDataFactory,
+  pendingType,
   resourceCallFactory,
 } from './common';
 import { getEntityFactory } from './entities';
@@ -25,22 +26,15 @@ export const TYPES = generateTypes('users', [
   'DESTROY',
 ]);
 
-export const PROMISE_TYPES = generatePromiseTypes(Object.values(TYPES));
-
 export default function usersReducer(state = INITIAL_STATE, { type, payload }) {
   switch (type) {
-    case PROMISE_TYPES.LOAD_LIST.PENDING: {
+    case pendingType(TYPES.LOAD_LIST): {
       const { paginationSearch } = payload;
-      if (isEqual(paginationSearch, state.get('paginationSearch'))) {
-        return state;
-      }
-
-      return state
-        .set('paginatedUsers', INITIAL_STATE.get('paginatedUsers'))
-        .set('paginationMeta', INITIAL_STATE.get('paginationMeta'))
-        .set('paginationSearch', paginationSearch);
+      return isEqual(paginationSearch, state.get('paginationSearch'))
+        ? state
+        : INITIAL_STATE.set('paginationSearch', paginationSearch);
     }
-    case PROMISE_TYPES.LOAD_LIST.FULFILLED: {
+    case fulfilledType(TYPES.LOAD_LIST): {
       const { pagination, result } = payload;
       return state
         .setIn(['paginatedUsers', String(pagination.page)], new List(result))
@@ -65,6 +59,12 @@ export function loadUsers(organizationId, role, page) {
     },
   };
 }
+
+export const loadUser = resourceCallFactory(
+  TYPES.LOAD,
+  API.userShow,
+  userSchema,
+);
 
 export const createUser = resourceCallFactory(
   TYPES.CREATE,

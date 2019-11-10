@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import URI from 'urijs';
 import isEmpty from 'lodash/isEmpty';
@@ -9,20 +9,6 @@ export default function usePagination({ paginationMeta, resources }, loadPage) {
   const { pathname, search } = useLocation();
   const currentPage = paginationMeta.page;
   const [fetchingPage, setFetchingPage] = useState(false);
-
-  useEffect(() => {
-    replace(
-      URI(pathname)
-        .setQuery({ page: 1 })
-        .toString(),
-    );
-    return () =>
-      replace(
-        URI(pathname)
-          .removeQuery('page')
-          .toString(),
-      );
-  }, [pathname, replace]);
 
   const handleLoadPage = useCallback(
     async page => {

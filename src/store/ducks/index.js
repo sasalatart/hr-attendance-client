@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import { connectRouter } from 'connected-react-router';
+import attendances from './attendances';
 import entities from './entities';
 import organizations from './organizations';
 import sessions, { TYPES as SESSIONS_TYPES } from './sessions';
@@ -7,6 +8,7 @@ import users from './users';
 
 const appReducer = history => {
   return combineReducers({
+    attendances,
     entities,
     organizations,
     router: connectRouter(history),

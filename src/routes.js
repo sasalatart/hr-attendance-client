@@ -2,7 +2,9 @@ import pathToRegexp from 'path-to-regexp';
 import mapValues from 'lodash/mapValues';
 
 const routes = {
-  home: '/',
+  employees: '/employees',
+  employeesAttendances: '/employees/:employeeId/attendances',
+  employeesRegistry: '/employees/registry',
   organizations: '/organizations',
   organizationsOrganization: '/organizations/:organizationId',
 };

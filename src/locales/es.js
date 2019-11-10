@@ -3,14 +3,20 @@ export default {
     appName: 'HR Attendance',
     nothingHereYet: 'No hay nada aquí aún',
     attendances: {
-      word: 'asistencias',
+      create: 'Crear asistencia',
+      edit: 'Editar asistencia',
+      enteredAt: 'Hora de entrada',
       enteredAtStamp: 'Llegada: {{enteredAt}}',
+      for: 'Asistencias de {{name}}',
+      leftAt: 'Hora de salida',
       leftAtStamp: 'Salida: {{leftAt}}',
+      mine: 'Mis asistencias',
       registry: {
         word: 'Registro de asistencia',
         checkIn: 'Registrar entrada',
         checkOut: 'Registrar salida',
       },
+      word: 'asistencias',
     },
     confirmations: {
       areYouSure: '¿Está seguro/a?',
@@ -48,6 +54,8 @@ export default {
     },
     validations: {
       email: 'no tiene el formato correcto',
+      mayNotBeInTheFuture: 'No puede estar en el futuro',
+      mustBeAfterEnteredAt: 'Debe ser después de la hora de entrada',
       passwordsDoNotMatch: 'La contraseña y su confirmación no coinciden',
       required: 'requerido',
       stringMax: 'no cumple con la longitud máxima',

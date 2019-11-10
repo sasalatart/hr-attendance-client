@@ -3,7 +3,7 @@ import { roles } from '../constants';
 
 export const paginationMetaShape = PropTypes.shape({
   page: PropTypes.number.isRequired,
-  pageSize: PropTypes.number.isRequired,
+  perPage: PropTypes.number.isRequired,
   totalPages: PropTypes.number.isRequired,
   totalRecords: PropTypes.number.isRequired,
 });
@@ -21,10 +21,19 @@ export const organizationShape = PropTypes.shape({
 
 export const roleShape = PropTypes.oneOf(Object.keys(roles));
 
+export const attendanceShape = PropTypes.shape({
+  ...entityAttributes,
+  employeeId: PropTypes.string.isRequired,
+  employeeFullname: PropTypes.string.isRequired,
+  enteredAt: PropTypes.string.isRequired,
+  leftAt: PropTypes.string,
+});
+
 export const userShape = PropTypes.shape({
   ...entityAttributes,
   email: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   surname: PropTypes.string.isRequired,
   secondSurname: PropTypes.string,
+  lastAttendance: attendanceShape,
 });

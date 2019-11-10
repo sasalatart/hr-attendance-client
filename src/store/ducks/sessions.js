@@ -2,10 +2,12 @@ import { batch } from 'react-redux';
 import { Map } from 'immutable';
 import { normalize, denormalize } from 'normalizr';
 import { createSelector } from 'reselect';
+import { replace } from 'connected-react-router';
 import API from '../../api';
 import { clearToken, setToken } from '../../lib/sessions';
+import routes from '../../routes';
 import { userSchema } from '../schemas';
-import { generateTypes, generatePromiseTypes } from './common';
+import { generateTypes, fulfilledType } from './common';
 import { getEntities } from './entities';
 
 const INITIAL_STATE = new Map({
@@ -20,8 +22,6 @@ export const TYPES = generateTypes('sessions', [
   'LOG_OUT',
 ]);
 
-export const PROMISE_TYPES = generatePromiseTypes(Object.values(TYPES));
-
 export default function sessionsReducer(
   state = INITIAL_STATE,
   { type, payload },
@@ -34,9 +34,9 @@ export default function sessionsReducer(
       setToken(jwt);
       return state.set('token', jwt);
     }
-    case PROMISE_TYPES.LOG_IN.FULFILLED:
+    case fulfilledType(TYPES.LOG_IN):
       return state.merge({ token: payload.jwt });
-    case PROMISE_TYPES.LOAD_PROFILE.FULFILLED:
+    case fulfilledType(TYPES.LOAD_PROFILE):
       return state.set('currentUserId', payload.result);
     default:
       return state;
@@ -65,8 +65,13 @@ export function logIn(body) {
 }
 
 export function logOut() {
-  clearToken();
-  return { type: TYPES.LOG_OUT };
+  return dispatch => {
+    clearToken();
+    batch(() => {
+      dispatch({ type: TYPES.LOG_OUT });
+      dispatch(replace(routes.sessionsLogIn));
+    });
+  };
 }
 
 export const getSessionsState = state => state.sessions;
