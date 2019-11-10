@@ -5,6 +5,8 @@ const routes = {
   employees: '/employees',
   employeesAttendances: '/employees/:employeeId/attendances',
   employeesRegistry: '/employees/registry',
+  home: '/',
+  logIn: '/log-in',
   organizations: '/organizations',
   organizationsOrganization: '/organizations/:organizationId',
 };
