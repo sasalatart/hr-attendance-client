@@ -6,7 +6,6 @@ import { Form, withFormik } from 'formik';
 import { makeStyles } from '@material-ui/core/styles';
 import { Paper, TextField, Typography } from '@material-ui/core';
 import {
-  formikSubmit,
   submitButtonProps,
   textFieldProps,
   valuesRequiredCheck,
@@ -73,6 +72,8 @@ export default compose(
   withFormik({
     mapPropsToValues,
     validate: valuesRequiredCheck,
-    handleSubmit: formikSubmit,
+    handleSubmit: function handleSubmit(values, { props, setSubmitting }) {
+      return props.onSubmit(values).catch(() => setSubmitting(false));
+    },
   }),
 )(LogIn);
