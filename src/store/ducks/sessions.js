@@ -2,10 +2,8 @@ import { batch } from 'react-redux';
 import { Map } from 'immutable';
 import { normalize, denormalize } from 'normalizr';
 import { createSelector } from 'reselect';
-import { replace } from 'connected-react-router';
 import API from '../../api';
 import { clearToken, setToken } from '../../lib/sessions';
-import routes from '../../routes';
 import { userSchema } from '../schemas';
 import { generateTypes, fulfilledType } from './common';
 import { getEntities } from './entities';
@@ -65,13 +63,8 @@ export function logIn(body) {
 }
 
 export function logOut() {
-  return dispatch => {
-    clearToken();
-    batch(() => {
-      dispatch({ type: TYPES.LOG_OUT });
-      dispatch(replace(routes.sessionsLogIn));
-    });
-  };
+  clearToken();
+  return { type: TYPES.LOG_OUT };
 }
 
 export const getSessionsState = state => state.sessions;

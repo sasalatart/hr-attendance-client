@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import { useSession } from '../hooks';
 import { Background } from './Common';
 import Employees from './Employees';
@@ -15,7 +15,10 @@ export default function Router() {
   if (!loggedIn) {
     return (
       <Background centered>
-        <Route component={LogIn} />
+        <Switch>
+          <Route path={routes.logIn} component={LogIn} />
+          <Redirect to={routes.logIn} />
+        </Switch>
       </Background>
     );
   }
