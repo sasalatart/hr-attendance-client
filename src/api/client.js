@@ -25,7 +25,13 @@ export default {
 
   async handleResponse(res) {
     const { headers } = res;
-    const body = humps(res.status === 204 ? {} : await res.json());
+
+    let body;
+    try {
+      body = humps(res.status === 204 ? {} : await res.json());
+    } catch {
+      /** noop */
+    }
 
     // eslint-disable-next-line prefer-promise-reject-errors
     if (!res.ok) return Promise.reject({ ...body, status: res.status });
