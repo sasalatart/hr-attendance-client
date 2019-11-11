@@ -8,6 +8,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import { DateTimePicker } from '@material-ui/pickers';
 import mapValues from 'lodash/mapValues';
 import pick from 'lodash/pick';
+import { utcToZonedTime } from 'date-fns-tz';
+import parseISO from 'date-fns/parseISO';
 import { attendanceSchema } from '../../lib/formik-schemas';
 import { dateTimePickerProps, formikSubmit } from '../../lib/forms';
 import {
@@ -15,11 +17,13 @@ import {
   updateAttendance,
 } from '../../store/ducks/attendances';
 import { attendanceShape } from '../prop-types';
+import config from '../../config';
 import { DialogForm } from '../Common';
 
 const DEFAULT_VALUES = {
   enteredAt: new Date().toString(),
   leftAt: new Date().toString(),
+  timezone: config.defaultTimezone,
 };
 const VALUE_NAMES = Object.keys(DEFAULT_VALUES);
 
@@ -74,7 +78,17 @@ function mapDispatchToProps(dispatch, ownProps) {
 }
 
 function mapPropsToValues({ resource }) {
-  return pick(resource || DEFAULT_VALUES, VALUE_NAMES);
+  const toZoned = value => {
+    return utcToZonedTime(parseISO(value), resource.timezone).toString();
+  };
+
+  const timezonedAttendance = resource && {
+    enteredAt: toZoned(resource.enteredAt),
+    leftAt: resource.leftAt && toZoned(resource.leftAt),
+    timezone: config.defaultTimezone,
+  };
+
+  return pick(timezonedAttendance || DEFAULT_VALUES, VALUE_NAMES);
 }
 
 export default compose(

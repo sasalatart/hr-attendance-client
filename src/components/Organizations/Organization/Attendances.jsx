@@ -17,9 +17,15 @@ export default function OrganizationAttendances({ organization }) {
   );
 
   const renderItemTextProps = useCallback(
-    ({ employeeFullname, enteredAt, leftAt }) => ({
+    ({ employeeFullname, enteredAt, leftAt, timezone }) => ({
       primary: employeeFullname,
-      secondary: <AttendanceItemStamps enteredAt={enteredAt} leftAt={leftAt} />,
+      secondary: (
+        <AttendanceItemStamps
+          enteredAt={enteredAt}
+          leftAt={leftAt}
+          timezone={timezone}
+        />
+      ),
     }),
     [],
   );

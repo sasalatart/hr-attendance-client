@@ -27,6 +27,7 @@ export const attendanceShape = PropTypes.shape({
   employeeFullname: PropTypes.string.isRequired,
   enteredAt: PropTypes.string.isRequired,
   leftAt: PropTypes.string,
+  timezone: PropTypes.string.isRequired,
 });
 
 export const userShape = PropTypes.shape({
@@ -36,4 +37,5 @@ export const userShape = PropTypes.shape({
   surname: PropTypes.string.isRequired,
   secondSurname: PropTypes.string,
   lastAttendance: attendanceShape,
+  timezone: PropTypes.string.isRequired,
 });

@@ -2,6 +2,7 @@ export default {
   translation: {
     appName: 'HR Attendance',
     nothingHereYet: 'No hay nada aquí aún',
+    timezone: 'Zona horaria',
     attendances: {
       create: 'Crear asistencia',
       edit: 'Editar asistencia',

@@ -59,4 +59,5 @@ export const attendanceSchema = Yup.object().shape({
     Yup.ref('enteredAt'),
     'validations.mustBeAfterEnteredAt',
   ),
+  timezone: Yup.string().required(),
 });

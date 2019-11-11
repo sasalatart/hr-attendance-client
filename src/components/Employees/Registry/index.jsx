@@ -4,8 +4,6 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
 import { Button } from '@material-ui/core';
-import isToday from 'date-fns/isToday';
-import parseISO from 'date-fns/parseISO';
 import { useActOnResource, useSession } from '../../../hooks';
 import { compiledRoutes } from '../../../routes';
 import { checkIn, checkOut } from '../../../store/ducks/attendances';
@@ -24,11 +22,8 @@ export default function AttendanceRegistry() {
   const { t } = useTranslation();
   const classes = useStyles();
   const dispatch = useDispatch();
-  const {
-    currentUser: { id, lastAttendance },
-  } = useSession();
-
-  const { enteredAt, leftAt } = lastAttendance || {};
+  const { id, lastAttendance } = useSession().currentUser;
+  const { enteredAt, leftAt, timezone } = lastAttendance || {};
 
   const handleLoadProfile = useCallback(() => dispatch(loadProfile()), [
     dispatch,
@@ -59,15 +54,19 @@ export default function AttendanceRegistry() {
           {t('attendances.mine')}
         </Button>
       </Title>
-      {(enteredAt || leftAt) && (
-        <AttendanceStamps enteredAt={enteredAt} leftAt={leftAt} />
+      {lastAttendance && (
+        <AttendanceStamps
+          enteredAt={enteredAt}
+          leftAt={leftAt}
+          timezone={timezone}
+        />
       )}
       <div className={classes.buttonsContainer}>
         <LoadingButton
           color="primary"
           size="large"
           loading={checkInLoading}
-          disabled={!leftAt || isToday(parseISO(leftAt))}
+          disabled={!!enteredAt && !leftAt}
           onClick={handleCheckIn}
         >
           {t('attendances.registry.checkIn')}
@@ -76,10 +75,10 @@ export default function AttendanceRegistry() {
           color="primary"
           size="large"
           loading={checkOutLoading}
-          disabled={!!leftAt}
+          disabled={!enteredAt || !!leftAt}
           onClick={handleCheckOut}
         >
-          {t('attendances.registry.checkIn')}
+          {t('attendances.registry.checkOut')}
         </LoadingButton>
       </div>
     </>
