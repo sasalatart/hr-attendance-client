@@ -55,8 +55,14 @@ export default function EmployeeAttendances() {
   );
 
   const renderItemTextProps = useCallback(
-    ({ enteredAt, leftAt }) => ({
-      primary: <AttendanceItemStamps enteredAt={enteredAt} leftAt={leftAt} />,
+    ({ enteredAt, leftAt, timezone }) => ({
+      primary: (
+        <AttendanceItemStamps
+          enteredAt={enteredAt}
+          leftAt={leftAt}
+          timezone={timezone}
+        />
+      ),
     }),
     [],
   );

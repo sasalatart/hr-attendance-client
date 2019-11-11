@@ -10,11 +10,12 @@ import identity from 'lodash/identity';
 import mapValues from 'lodash/mapValues';
 import pickBy from 'lodash/pickBy';
 import snakeCase from 'lodash/snakeCase';
-import { formikSubmit, textFieldProps } from '../../lib/forms';
+import { formikSubmit, selectProps, textFieldProps } from '../../lib/forms';
 import { createUser, updateUser } from '../../store/ducks/users';
 import { newUserSchema, updateUserSchema } from '../../lib/formik-schemas';
 import { roleShape, userShape } from '../prop-types';
-import { DialogForm } from '../Common';
+import { DialogForm, TimezoneSelect } from '../Common';
+import config from '../../config';
 
 const DEFAULT_VALUES = {
   email: '',
@@ -23,11 +24,15 @@ const DEFAULT_VALUES = {
   secondSurname: '',
   password: '',
   passwordConfirmation: '',
+  timezone: config.defaultTimezone,
 };
 
 const useStyles = makeStyles({
   field: {
     margin: '5px 0',
+  },
+  selectField: {
+    margin: '15px 0 10px 0',
   },
 });
 
@@ -49,6 +54,12 @@ function UserForm({ resource, ...rest }) {
       <TextField {...propsFor('name')} />
       <TextField {...propsFor('surname')} />
       <TextField {...propsFor('secondSurname')} />
+
+      <TimezoneSelect
+        {...selectProps('timezone', rest)}
+        className={classes.selectField}
+      />
+
       <TextField {...propsFor('password')} type="password" />
       <TextField {...propsFor('passwordConfirmation')} type="password" />
     </DialogForm>

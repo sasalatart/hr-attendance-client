@@ -33,6 +33,14 @@ export function dateTimePickerProps(name, { setFieldValue, ...rest }, t) {
   };
 }
 
+export function selectProps(name, { setFieldValue, values }) {
+  return {
+    name,
+    value: values[name],
+    onChange: ({ value }) => setFieldValue(name, value),
+  };
+}
+
 export function submitButtonProps(props) {
   return pick(props, ['dirty', 'errors', 'isSubmitting']);
 }
