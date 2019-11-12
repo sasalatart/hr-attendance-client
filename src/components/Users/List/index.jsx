@@ -44,14 +44,14 @@ export default function UsersList({ role, organizationId }) {
 
   return (
     <>
+      <Title textId={`users.list.${role}s`} variant="h4">
+        <IconButton color="primary" onClick={setCreating}>
+          <CreateIcon />
+        </IconButton>
+      </Title>
       <DataPlaceholder loading={loadingPage} resource={users}>
         {() => (
           <>
-            <Title textId={`users.list.${role}s`} variant="h4">
-              <IconButton color="primary" onClick={setCreating}>
-                <CreateIcon />
-              </IconButton>
-            </Title>
             <List>
               {users.map(user => (
                 <UserListItem
